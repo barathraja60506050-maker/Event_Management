@@ -1,0 +1,102 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: light dark;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  @apply font-body bg-base-light text-ink-light dark:bg-base-dark dark:text-ink-dark;
+  transition: background-color 0.25s ease, color 0.25s ease;
+}
+
+h1, h2, h3, h4 {
+  font-family: '"Space Grotesk"', sans-serif;
+}
+
+::selection {
+  background: rgba(124, 58, 237, 0.35);
+}
+
+/* Visible keyboard focus everywhere, respecting the design instead of
+   suppressing the browser default outline. */
+:focus-visible {
+  outline: 2px solid #7C3AED;
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ---------------------------------------------------------------------
+   Signature element: the perforated "ticket stub" card.
+   Used for EventCard and TicketCard so the whole product visually rhymes
+   with a real event ticket, not just a generic rounded card.
+------------------------------------------------------------------------ */
+.ticket-stub {
+  position: relative;
+  border-radius: 1.25rem;
+  isolation: isolate;
+}
+
+.ticket-stub::before,
+.ticket-stub::after {
+  content: '';
+  position: absolute;
+  width: 22px;
+  height: 22px;
+  border-radius: 999px;
+  background: inherit;
+  z-index: 2;
+}
+
+/* The two notches sit on the divider line between the "poster" area and
+   the "stub" footer of the card, cut out of the card's own background. */
+.ticket-stub--notched {
+  --notch-top: 100%;
+}
+
+.glass-panel {
+  @apply backdrop-blur-xl border border-white/10 dark:border-white/10;
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.light .glass-panel,
+:root:not(.dark) .glass-panel {
+  background: rgba(255, 255, 255, 0.55);
+  border-color: rgba(17, 21, 40, 0.06);
+}
+
+.gradient-btn {
+  @apply bg-aurora-gradient text-white font-semibold shadow-glow transition-transform duration-200;
+}
+
+.gradient-btn:hover {
+  transform: translateY(-1px);
+  filter: brightness(1.08);
+}
+
+.gradient-btn:active {
+  transform: translateY(0);
+}
+
+.perforated-divider {
+  background-image: radial-gradient(circle, rgba(139, 147, 167, 0.45) 1.5px, transparent 1.5px);
+  background-size: 10px 2px;
+  background-repeat: repeat-x;
+  height: 2px;
+}
