@@ -2,24 +2,10 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { HiCalendar, HiLocationMarker, HiUserGroup } from 'react-icons/hi';
+import { getImageUrl, getFallbackByTitle } from '../../utils/getImageUrl';
 
 const formatDate = (dateStr) =>
   new Date(dateStr).toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' });
-
-const getImageForEvent = (event) => {
-  const title = event.title?.toLowerCase() || '';
-
-  if (title.includes('ml') || title.includes('machine')) return '/images/ml-bootcamp.png';
-  if (title.includes('ui') || title.includes('ux')) return '/images/ui:ux-bootcamp.jpg';
-  if (title.includes('music')) return '/images/music-event.jpg';
-  if (title.includes('college') || title.includes('fest')) return '/images/collage-event.png';
-  if (title.includes('javascript') || title.includes('js')) return '/images/javaScript-bootcamp.webp';
-  if (title.includes('css')) return '/images/css-bootcamp.jpg';
-
-  if (event.banner && event.banner.startsWith('http')) return event.banner;
-
-  return '/images/AI-bootcamp.jpg';
-};
 
 /**
  * The signature card: a "poster" section up top and a ticket-stub footer
@@ -40,12 +26,12 @@ export default function EventCard({ event, registered, hideAction = false }) {
       <Link to={`/events/${event.slug}`} className="block">
         <div className="relative h-40 w-full overflow-hidden bg-aurora-gradient-soft">
           <img
-            src={getImageForEvent(event)}
+            src={getImageUrl(event.banner, event.title)}
             alt={event.title}
             className="h-full w-full object-cover"
             onError={(e) => {
               e.currentTarget.onerror = null;
-              e.currentTarget.src = '/images/music-event.jpg';
+              e.currentTarget.src = getFallbackByTitle(event.title);
             }}
           />
           <span className="absolute top-3 right-3 text-xs font-semibold px-2.5 py-1 rounded-full bg-black/50 text-white backdrop-blur-sm">

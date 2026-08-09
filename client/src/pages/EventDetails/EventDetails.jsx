@@ -6,6 +6,7 @@ import QRCodeModal from '../../components/QRCodeModal/QRCodeModal';
 import PaymentModal from '../../components/PaymentModal/PaymentModal';
 import { eventService, registrationService } from '../../services/eventService';
 import { useAuth } from '../../context/AuthContext';
+import { getImageUrl, getFallbackByTitle } from '../../utils/getImageUrl';
 
 export default function EventDetails() {
   const { slug } = useParams();
@@ -118,13 +119,15 @@ export default function EventDetails() {
   return (
     <div className="max-w-5xl mx-auto px-5 sm:px-8 py-12">
       <div className="rounded-xl2 overflow-hidden h-64 sm:h-96 bg-aurora-gradient-soft mb-8">
-        {event.banner ? (
-          <img src={event.banner} alt={event.title} className="h-full w-full object-cover" />
-        ) : (
-          <div className="h-full w-full flex items-center justify-center text-6xl font-display font-bold text-aurora-violet/30">
-            {event.title?.[0]}
-          </div>
-        )}
+        <img
+          src={getImageUrl(event.banner, event.title)}
+          alt={event.title}
+          className="h-full w-full object-cover"
+          onError={(e) => {
+            e.currentTarget.onerror = null;
+            e.currentTarget.src = getFallbackByTitle(event.title);
+          }}
+        />
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
