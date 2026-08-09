@@ -24,13 +24,15 @@ export default function EventCard({ event, registered, hideAction = false }) {
     >
       <Link to={`/events/${event.slug}`} className="block">
         <div className="relative h-40 w-full overflow-hidden bg-aurora-gradient-soft">
-          {event.banner ? (
-            <img src={event.banner} alt={event.title} className="h-full w-full object-cover" />
-          ) : (
-            <div className="h-full w-full flex items-center justify-center text-4xl font-display font-bold text-aurora-violet/40">
-              {event.title?.[0] ?? '?'}
-            </div>
-          )}
+          <img
+            src={event.banner || '/images/music-event.jpg'}
+            alt={event.title}
+            className="h-full w-full object-cover"
+            onError={(e) => {
+              e.currentTarget.onerror = null;
+              e.currentTarget.src = '/images/music-event.jpg';
+            }}
+          />
           <span className="absolute top-3 right-3 text-xs font-semibold px-2.5 py-1 rounded-full bg-black/50 text-white backdrop-blur-sm">
             {event.category}
           </span>
