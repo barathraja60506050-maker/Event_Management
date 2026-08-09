@@ -6,6 +6,21 @@ import { HiCalendar, HiLocationMarker, HiUserGroup } from 'react-icons/hi';
 const formatDate = (dateStr) =>
   new Date(dateStr).toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' });
 
+const getImageForEvent = (event) => {
+  if (event.banner) return event.banner;
+
+  const title = event.title?.toLowerCase() || '';
+
+  if (title.includes('ml') || title.includes('machine')) return '/images/ml-bootcamp.png';
+  if (title.includes('ui') || title.includes('ux')) return '/images/ui:ux-bootcamp.jpg';
+  if (title.includes('music')) return '/images/music-event.jpg';
+  if (title.includes('college') || title.includes('fest')) return '/images/collage-event.png';
+  if (title.includes('javascript') || title.includes('js')) return '/images/javaScript-bootcamp.webp';
+  if (title.includes('css')) return '/images/css-bootcamp.jpg';
+
+  return '/images/AI-bootcamp.jpg';
+};
+
 /**
  * The signature card: a "poster" section up top and a ticket-stub footer
  * below it, separated by a perforated line with two cut-out notches —
@@ -25,7 +40,7 @@ export default function EventCard({ event, registered, hideAction = false }) {
       <Link to={`/events/${event.slug}`} className="block">
         <div className="relative h-40 w-full overflow-hidden bg-aurora-gradient-soft">
           <img
-            src={event.banner || '/images/music-event.jpg'}
+            src={getImageForEvent(event)}
             alt={event.title}
             className="h-full w-full object-cover"
             onError={(e) => {
