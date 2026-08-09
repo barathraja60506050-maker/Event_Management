@@ -7,8 +7,6 @@ const formatDate = (dateStr) =>
   new Date(dateStr).toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' });
 
 const getImageForEvent = (event) => {
-  if (event.banner) return event.banner;
-
   const title = event.title?.toLowerCase() || '';
 
   if (title.includes('ml') || title.includes('machine')) return '/images/ml-bootcamp.png';
@@ -17,6 +15,8 @@ const getImageForEvent = (event) => {
   if (title.includes('college') || title.includes('fest')) return '/images/collage-event.png';
   if (title.includes('javascript') || title.includes('js')) return '/images/javaScript-bootcamp.webp';
   if (title.includes('css')) return '/images/css-bootcamp.jpg';
+
+  if (event.banner && event.banner.startsWith('http')) return event.banner;
 
   return '/images/AI-bootcamp.jpg';
 };
